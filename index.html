@@ -1,232 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salesforce Embedded Messaging Test Environment | arvindbangari.github.io</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            900: '#1e3a8a',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Inter Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <title>Salesforce Messaging Test Harness</title>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f4f6f9;
+            color: #181818;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        .glow-effect {
-            box-shadow: 0 0 50px -12px rgba(59, 130, 246, 0.25);
+        .container {
+            max-width: 650px;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #dddbda;
+        }
+        h1 {
+            font-size: 22px;
+            color: #0176d3;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.5;
+            color: #3e3e3e;
+        }
+        .status-box {
+            background-color: #eef4fe;
+            border-left: 4px solid #0176d3;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+<body>
 
-    <!-- Header -->
-    <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-blue-600 to-indigo-500 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20">
-                    <i class="fa-solid fa-cloud-bolt text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-base leading-tight text-white flex items-center gap-2">
-                        Salesforce Chat Environment
-                        <span class="text-xs font-normal text-slate-400 border border-slate-700/80 rounded-full px-2 py-0.5 bg-slate-800/50">MIAW Test Harness</span>
-                    </h1>
-                    <p class="text-xs text-slate-400 font-mono">arvindbangari.github.io</p>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-3">
-                <div class="hidden sm:flex items-center space-x-2 text-xs text-slate-400 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Host: GitHub Pages</span>
-                </div>
-            </div>
+    <div class="container">
+        <h1>Messaging Attachment Test Harness</h1>
+        <p>This page loads the Salesforce Embedded Messaging widget configured for your dev org.</p>
+        
+        <div class="status-box">
+            <strong>Reproduction Steps:</strong>
+            <ol>
+                <li>Ensure Omni-Channel agent status is set to <strong>Offline</strong> in Salesforce.</li>
+                <li>Click the chat launcher icon below to start a session (status: <code>WAITING</code>).</li>
+                <li>Click the paperclip icon inside the chat widget.</li>
+                <li>Upload a <strong>4.5MB – 5MB PDF file</strong> and click Send.</li>
+            </ol>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-grow space-y-8">
+    <!-- Salesforce Embedded Messaging Script -->
+    <script type='text/javascript'>
+        function initEmbeddedMessaging() {
+            try {
+                embeddedservice_bootstrap.settings.language = 'en_US';
 
-        <!-- Hero Section -->
-        <div class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 rounded-2xl p-8 sm:p-10 glow-effect">
-            <div class="absolute -right-20 -top-20 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="max-w-3xl space-y-4">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                    <i class="fa-solid fa-flask text-xs"></i>
-                    Reproduction Suite: Skyhigh DLP Heap Size Limit
-                </div>
-                
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-                    Salesforce Custom Client Embedded Messaging Test Harness
-                </h2>
-                
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    This interactive environment hosts the Salesforce Custom Client (MIAW) chat widget. It is designed to simulate end-user PDF attachment uploads while a session is queued in <code class="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded border border-slate-700 font-mono text-xs">WAITING</code> status to trigger the synchronous Apex heap size limit exception.
-                </p>
-            </div>
-        </div>
-
-        <!-- Step-by-Step Reproduction Guide -->
-        <div class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-blue-400"></i>
-                    Reproduction Protocol
-                </h3>
-                <span class="text-xs text-slate-400">Follow steps strictly to capture Apex Exception Log</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Step 1 -->
-                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-all shadow-sm group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">01</span>
-                        <i class="fa-solid fa-user-slash text-slate-600 group-hover:text-blue-400 transition-colors"></i>
-                    </div>
-                    <h4 class="font-semibold text-sm text-slate-200 mb-1.5">Set Omni Agent Offline</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        In Salesforce Service Console, ensure your user's Omni-Channel status is set to <strong>Offline</strong> so incoming chats are queued.
-                    </p>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-all shadow-sm group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">02</span>
-                        <i class="fa-solid fa-comments text-slate-600 group-hover:text-amber-400 transition-colors"></i>
-                    </div>
-                    <h4 class="font-semibold text-sm text-slate-200 mb-1.5">Initiate Chat Session</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Click the chat widget on this page to start a chat session. Confirm the session status displays as <code class="text-amber-300">WAITING</code>.
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-all shadow-sm group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">03</span>
-                        <i class="fa-solid fa-paperclip text-slate-600 group-hover:text-indigo-400 transition-colors"></i>
-                    </div>
-                    <h4 class="font-semibold text-sm text-slate-200 mb-1.5">Attach ~4.8 MB PDF File</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Click the attachment paperclip icon in the chat widget and select a PDF file between <strong>4.5 MB and 5.0 MB</strong>.
-                    </p>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-all shadow-sm group">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">04</span>
-                        <i class="fa-solid fa-triangle-exclamation text-slate-600 group-hover:text-rose-400 transition-colors"></i>
-                    </div>
-                    <h4 class="font-semibold text-sm text-slate-200 mb-1.5">Observe LimitException</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Submit the file. The upload will fail in the chat UI, and an unhandled <code class="text-rose-400">System.LimitException</code> will generate in Apex Logs.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Domain Info & CORS Status Box -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-6 space-y-3">
-                <div class="flex items-center gap-2 text-sm font-semibold text-slate-200">
-                    <i class="fa-solid fa-shield-halved text-blue-400"></i>
-                    <span>CORS Authorization Checklist</span>
-                </div>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    Salesforce Embedded Messaging enforces Cross-Origin Resource Sharing (CORS). Ensure your active domain is added to Salesforce setup, otherwise network requests will fail silently.
-                </p>
-                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs flex flex-wrap items-center justify-between gap-2">
-                    <span class="text-slate-300">Origin Pattern:</span>
-                    <code class="text-blue-400 bg-blue-950/60 px-2 py-1 rounded border border-blue-800/60">https://arvindbangari.github.io</code>
-                </div>
-            </div>
-
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-6 space-y-3 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center gap-2 text-sm font-semibold text-slate-200 mb-1">
-                        <i class="fa-solid fa-bug text-amber-400"></i>
-                        <span>Root Cause Summary</span>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Synchronous <code class="text-slate-300">ContentVersion</code> AfterInsert trigger (<code class="text-pink-400">SkyhighNetworks.SHNContentVersionEvents</code>) serializes raw binary into Base64/JSON, exceeding the 6MB heap limit.
-                    </p>
-                </div>
-                <div class="text-[11px] text-slate-500 italic">
-                    Salesforce Apex Limit: 6 MB Synchronous Heap
-                </div>
-            </div>
-        </div>
-
-        <!-- Custom Snippet Placement Area -->
-        <div class="bg-slate-900/50 border-2 border-dashed border-slate-800 rounded-2xl p-8 text-center space-y-4">
-            <div class="w-12 h-12 bg-slate-800 text-slate-400 rounded-xl flex items-center justify-center mx-auto text-xl shadow-inner">
-                <i class="fa-solid fa-code"></i>
-            </div>
-            <div class="max-w-lg mx-auto space-y-2">
-                <h3 class="text-base font-semibold text-slate-200">Salesforce Custom Client Deployment Zone</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    Open this <code class="text-blue-400 font-mono">index.html</code> file in your text editor and paste your published Salesforce Messaging Deployment script right before the closing <code class="text-slate-300 font-mono">&lt;/body&gt;</code> tag at the bottom of the file.
-                </p>
-            </div>
-            <div class="inline-block bg-slate-950 border border-slate-800 rounded-lg px-4 py-2 font-mono text-xs text-slate-400 shadow-sm">
-                &lt;!-- PASTE YOUR EMBEDDED SERVICE CODE SNIPPET BELOW --&gt;
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-800/80 bg-slate-900/40 py-6">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <p>Salesforce Embedded Messaging Custom Client Test Environment</p>
-            <p class="font-mono">arvindbangari.github.io</p>
-        </div>
-    </footer>
-
-    <!-- 
-        ====================================================================================
-        PASTE YOUR CUSTOM CLIENT / EMBEDDED SERVICE DEPLOYMENT CODE SNIPPET DIRECTLY BELOW
-        ====================================================================================
-    -->
-    
-    <!-- Paste snippet starting with <script type='text/javascript'> here -->
-
-        {
-  "channelAddressIdentifier": "3a13223b-44b7-425c-a321-cda93c744908",
-  "OrganizationId": "00DHu0000018vvh",
-  "DeveloperName": "Web_Chat",
-  "Url": "https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com"
-}
-
-    <!-- 
-        ====================================================================================
-        END OF SALESFORCE DEPLOYMENT SNIPPET
-        ====================================================================================
-    -->
+                embeddedservice_bootstrap.init(
+                    '00DHu0000018vvh',
+                    'Web_Chat',
+                    'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com',
+                    {
+                        scrt2URL: 'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com'
+                    }
+                );
+            } catch (err) {
+                console.error('Error loading Embedded Messaging: ', err);
+            }
+        };
+    </script>
+    <script 
+        type='text/javascript' 
+        src='https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com/embeddedservice/asyncresponder/mfe/bootstrap.min.js' 
+        onload='initEmbeddedMessaging()'>
+    </script>
 
 </body>
 </html>
