@@ -41,13 +41,22 @@
             border-radius: 0 4px 4px 0;
             font-size: 14px;
         }
+        .error-box {
+            background-color: #fef1f1;
+            border-left: 4px solid #ea001e;
+            padding: 12px 16px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Messaging Attachment Test Harness</h1>
-        <p>This page loads the Salesforce Embedded Messaging widget configured for your dev org.</p>
+        <p>This page tests the <code>WAITING</code> chat status file attachment error using an unauthenticated token payload.</p>
         
         <div class="status-box">
             <strong>Reproduction Steps:</strong>
@@ -58,24 +67,62 @@
                 <li>Upload a <strong>4.5MB – 5MB PDF file</strong> and click Send.</li>
             </ol>
         </div>
+
+        <div id="authError" class="error-box">
+            <strong>Token Error:</strong> Unable to retrieve a guest token for the custom client deployment. If prompt persists, verify Connected App CORS settings.
+        </div>
     </div>
 
     <!-- Salesforce Embedded Messaging Script -->
     <script type='text/javascript'>
-        function initEmbeddedMessaging() {
+        async function fetchGuestJwtToken() {
+            const tokenEndpoint = 'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com/embeddedservice/v1/embeddedmessaging/token';
+            try {
+                const response = await fetch(tokenEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orgId: '00DHu0000018vvh',
+                        developerName: 'Web_Chat'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.accessToken || data.jwt;
+                }
+            } catch (err) {
+                console.warn('Could not fetch dynamic guest JWT, proceeding with default bootstrap authorization:', err);
+            }
+            return null;
+        }
+
+        async function initEmbeddedMessaging() {
             try {
                 embeddedservice_bootstrap.settings.language = 'en_US';
+                
+                // Fetch JWT Token to clear HTTP 401 Basic Auth popup
+                const guestToken = await fetchGuestJwtToken();
+
+                const config = {
+                    scrt2URL: 'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com'
+                };
+
+                if (guestToken) {
+                    config.jwt = guestToken;
+                }
 
                 embeddedservice_bootstrap.init(
                     '00DHu0000018vvh',
                     'Web_Chat',
                     'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com',
-                    {
-                        scrt2URL: 'https://skyhighsecurity28-dev-ed.develop.my.salesforce-scrt.com'
-                    }
+                    config
                 );
             } catch (err) {
                 console.error('Error loading Embedded Messaging: ', err);
+                document.getElementById('authError').style.display = 'block';
             }
         };
     </script>
